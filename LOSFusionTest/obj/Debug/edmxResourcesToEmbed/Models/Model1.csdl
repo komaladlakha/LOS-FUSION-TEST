@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LosFusionTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="LosFusionTestEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TblCars" EntityType="LosFusionTestModel.TblCar" />
+    <EntitySet Name="TblUsers" EntityType="LosFusionTestModel.TblUser" />
+    <AssociationSet Name="FK_TblCars_TblUsers" Association="LosFusionTestModel.FK_TblCars_TblUsers">
+      <End Role="TblUser" EntitySet="TblUsers" />
+      <End Role="TblCar" EntitySet="TblCars" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TblCar">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Year" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="TblUser" Relationship="LosFusionTestModel.FK_TblCars_TblUsers" FromRole="TblCar" ToRole="TblUser" />
+  </EntityType>
+  <EntityType Name="TblUser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AuthToken" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TblCars" Relationship="LosFusionTestModel.FK_TblCars_TblUsers" FromRole="TblUser" ToRole="TblCar" />
+  </EntityType>
+  <Association Name="FK_TblCars_TblUsers">
+    <End Type="LosFusionTestModel.TblUser" Role="TblUser" Multiplicity="0..1" />
+    <End Type="LosFusionTestModel.TblCar" Role="TblCar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TblCar">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
